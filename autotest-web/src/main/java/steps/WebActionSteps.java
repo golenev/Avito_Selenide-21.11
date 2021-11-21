@@ -2,16 +2,21 @@ package steps;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.ru.Если;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
+import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.lanit.at.web.pagecontext.PageManager;
 import ru.lanit.at.utils.Sleep;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.*;
 
 
 public class WebActionSteps {
@@ -22,6 +27,11 @@ public class WebActionSteps {
     public WebActionSteps(PageManager manager) {
         this.pageManager = manager;
     }
+
+    private final SelenideElement searchField = $x("//*[@class=\"input-input-Zpzc1\"]");
+    private final SelenideElement placeForEnteringRegion = $x("//input[@placeholder='Город, регион или Россия']");
+    private final SelenideElement sortDropDown = $x("//div[@class='select-select-box-jJiQW select-size-s-VX5kS']");
+    private final SelenideElement expensiveAtFirst = $x ("//option[contains(text(),'Дороже')]");
 
     /**
      * нажимает на элемент по тексту
@@ -107,5 +117,44 @@ public class WebActionSteps {
                 .getElement(elementName)
                 .shouldBe(Condition.visible)
                 .clear();
+    }
+
+    @Given("main page is open")
+    public void mainPageIsOpen() {
+        Selenide.open("https://www.avito.ru/");
+        
+    }
+
+
+
+    @And("value {string} entered in search field")
+    public void valueEnteredInSearchField(String string) {
+        searchField.click();
+        searchField.setValue(string);
+
+
+
+
+    }
+
+    @Then("value {string} is entered in the region field")
+    public void valueIsEnteredInTheRegionField(String string) {
+
+        placeForEnteringRegion.click();
+        placeForEnteringRegion.setValue(string);
+        sleep(2000);
+
+        
+    }
+
+    @Then("page search results is open")
+    public void pageSearchResultsIsOpen() {
+        
+    }
+
+    @And("value ExpensiveAtFirst is chosen from Sort dropdown list")
+    public void valueExpensiveAtFirstIsChosenFromSortDropdownList() {
+        sortDropDown.click();
+        expensiveAtFirst.click();
     }
 }

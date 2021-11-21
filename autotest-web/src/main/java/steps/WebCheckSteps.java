@@ -1,12 +1,18 @@
 package steps;
 
 import actions.WebChecks;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Тогда;
+import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.lanit.at.web.pagecontext.PageManager;
+
+import static com.codeborne.selenide.Selenide.*;
 
 public class WebCheckSteps {
 
@@ -16,6 +22,11 @@ public class WebCheckSteps {
     public WebCheckSteps(PageManager pageManager) {
         this.pageManager = pageManager;
     }
+
+    private final SelenideElement dropDownRegions = $x("//div[@class='main-text-g_qrO']");
+    private final SelenideElement showAdsButton = $x("//button[@class='button-button-CmK9a button-size-m-LzYrF button-primary-x_x8w']");
+    private final SelenideElement checkBoxOnlyWithFoto = $x("//span[contains(text(),'только с фото')]");
+    private final ElementsCollection finalSearchResult = $$x("//div[@data-marker='item']");
 
     /**
      * проверка присутствия текста на странице
@@ -77,7 +88,7 @@ public class WebCheckSteps {
         WebChecks.elementVisibleOnPage(element, timeoutSeconds);
         LOGGER.info("на странице '{}' имеется элемент '{}'", pageManager.getCurrentPage().name(), elementName);
     }
-    
+
     /**
      * проверка что на странице отображен элемент
      *
@@ -126,5 +137,43 @@ public class WebCheckSteps {
     @Тогда("проверить что текущий url содержит текст {string}")
     public void currentUrlContainsExpected(String url) {
         WebChecks.urlContains(url);
+    }
+
+    @Then("click at dropdown list of regions")
+    public void clickAtDropdownListOfRegions() {
+        dropDownRegions.click();
+
+
+    }
+
+    @And("show ads button is pressed")
+    public void showAdsButtonIsPressed() {
+        showAdsButton.click();
+
+
+    }
+
+    @And("checkbox onlyWithPhoto is activated")
+    public void checkboxOnlyWithPhotoIsActivated() {
+        checkBoxOnlyWithFoto.click();
+
+    }
+
+    @And("value of name and price is printed in console for the first three products")
+    public void valueOfNameAndPriceIsPrintedInConsoleForTheFirstThreeProducts() {
+        System.out.println("Выводим цены и названия товара в первых трёх объявлениях");
+        System.out.println();  //для пробела
+        final String str = finalSearchResult.get(0).getText();
+        final String sentences[] = str.split("[₽]\\s*");
+        System.out.println(sentences[0]);
+        System.out.println();
+        final String str1 = finalSearchResult.get(1).getText();
+        final String sentences1[] = str1.split("[₽]\\s*");
+        System.out.println(sentences1[0]);
+        System.out.println();
+        final String str2 = finalSearchResult.get(2).getText();
+        final String sentences2[] = str2.split("[₽]\\s*");
+        System.out.println(sentences2[0]);
+        System.out.println(); //для пробела
     }
 }

@@ -2,7 +2,9 @@ package steps;
 
 import actions.WebActions;
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import io.cucumber.java.en.And;
 import io.cucumber.java.ru.Если;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
@@ -13,6 +15,8 @@ import ru.lanit.at.web.pagecontext.Environment;
 import ru.lanit.at.web.pagecontext.PageManager;
 import ru.lanit.at.web.pagecontext.WebPage;
 
+import static com.codeborne.selenide.Selenide.$x;
+
 public class WindowSteps {
 
     private PageManager pageManager;
@@ -21,6 +25,9 @@ public class WindowSteps {
     public WindowSteps(PageManager manager) {
         this.pageManager = manager;
     }
+
+    private final SelenideElement selectCategory = $x("//select[@id='category']");
+    private final SelenideElement categoryOfficeEquipment = $x("//option[contains(text(),'Оргтехника и расходники')]");
 
     /**
      * открывает страницу по ссылке
@@ -95,5 +102,11 @@ public class WindowSteps {
     public void setPage(String pageName) {
         WebPage page = Environment.getPage(pageName);
         pageManager.setCurrentPage(page);
+    }
+
+    @And("equipment is selected at dropdown list of category")
+    public void equipmentIsSelectedAtDropdownListOfCategory() {
+        selectCategory.click();
+        categoryOfficeEquipment.click();
     }
 }

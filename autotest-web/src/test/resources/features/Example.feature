@@ -1,16 +1,14 @@
-#language:ru
-@google
-Функционал: Поиск гугл
+Feature: search the most expensive printers
+  Background:
+    Given main page is open
+    Scenario:
+      And equipment is selected at dropdown list of category
+      And value "Принтер" entered in search field
+      Then click at dropdown list of regions
+      Then value "Владивосток" is entered in the region field
+      And show ads button is pressed
+      Then page search results is open
+      And checkbox onlyWithPhoto is activated
+      And value ExpensiveAtFirst is chosen from Sort dropdown list
+      And value of name and price is printed in console for the first three products
 
-  Сценарий: Открытие страницы google.com, ввод значения в поиск
-
-    * открыть url "https://www.google.ru/"
-    * инициализация страницы "Google"
-    * ввести в поле "поле поиска" значение "Погода в Москве"
-
-    * на странице отсутствует текст "погода в ижевске"
-
-    * на странице имеется элемент "кнопка поиска"
-    * кликнуть на элемент "кнопка поиска"
-    * переход на страницу "Google страница результатов"
-    * на странице имеется элемент "виджет погоды"
