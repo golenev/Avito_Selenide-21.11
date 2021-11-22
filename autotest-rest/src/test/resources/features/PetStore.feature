@@ -5,7 +5,7 @@
   - Создание нового юзера POST запросом с телом из json файла, значения которого заполняем сгенерированным значениями
   - После создания нового юзера, GET запросом запрашиваем данного юзера и проверяем, что его данные соответствует данными из тела запроса
 
-  Сценарий: Создание юзера
+  Сценарий: Создание заказа
 
 
     # Первая часть теста - Создание юзера. Эти данные подставятся в тело запроса в шаблон тела файла createUser.json
@@ -15,42 +15,38 @@
         # D - цифра. Остальные символы игнорятся
         # Условна дана строка TEST_EEE_DDD_RRR - снегерится примерно такая - TEST_QRG_904_ЙЦУ
     * сгенерировать переменные
-      | id         | 0                 |
-      | username   | EEEEEEEE          |
-      | firstName  | EEEEEEEE          |
-      | lastName   | EEEEEEEE          |
-      | email      | EEEEEEE@EEEDDD.EE |
-      | password   | DDDEEEDDDEEE      |
-      | phone      | +7DDDDDDDDDD      |
-      | userStatus | 1                 |
+      | id         | 9                 |
+      | petId      | 5          |
+      | quantity   | 1          |
+      | shipDate   | 2021-11-22T12:28:31.824Z          |
+      | status     | placed          |
+      | complete   | true              |
 
-    # Создаем юзера
+    # Создаем заказ
     * создать запрос
-      | method | path  | body            |
-      | POST   | /user | createUser.json |
+      | method | path         | body            |
+      | POST   | /store/order | createOrder.json |
     * добавить header
-      | Content-Type | application/json |
+      | Content-Type          | application/json |
     * отправить запрос
     * статус код 200
-    * извлечь данные
-      | user_id | $.message |
+    #* извлечь данные
+    #  | orderId | $.message |
     * сравнить значения
-      | ${user_id} | != | null |
+      | ${orderId} | != | null |
 
-    # Вторая часть теста - запрос юзера и проверка его данных
+
+
+
+   # Удаляем заказ и проверяем удаление
     * создать запрос
-      | method | path              |
-      | GET    | /user/${username} |
+      | method | path             | body            |
+      | DELETE   | /store/order/9 | createOrder.json |
     * добавить header
-      | accept | application/json |
-
-    # FLAKY - Из-за особенностей сервиса PetStore может возвращать 404
+      | Content-Type             | application/json |
     * отправить запрос
     * статус код 200
-    * извлечь данные
-      | resp_firstname | $.firstName |
-      | resp_user_id   | $.id        |
-
+    #* извлечь данные
+    #  | orderId | $.message |
     * сравнить значения
-      | ${user_id}   | == | ${resp_user_id}   |
-      | ${firstName} | == | ${resp_firstname} |
+      | ${orderId} | != | null |
