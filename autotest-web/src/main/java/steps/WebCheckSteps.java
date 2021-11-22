@@ -23,7 +23,7 @@ public class WebCheckSteps {
         this.pageManager = pageManager;
     }
 
-    private final SelenideElement dropDownRegions = $x("//div[@class='main-text-g_qrO']");
+    private final SelenideElement dropDownRegions = $x("//div[@class='main-locationWrapper-R8itV']");
     private final SelenideElement showAdsButton = $x("//button[@class='button-button-CmK9a button-size-m-LzYrF button-primary-x_x8w']");
     private final SelenideElement checkBoxOnlyWithFoto = $x("//span[contains(text(),'только с фото')]");
     private final ElementsCollection finalSearchResult = $$x("//div[@data-marker='item']");
