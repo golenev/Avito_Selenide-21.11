@@ -1,14 +1,21 @@
-Feature: search the most expensive printers
-  Background:
-    Given main page is open
-    Scenario:
-      And equipment is selected at dropdown list of category
-      And value "Принтер" entered in search field
-      Then click at dropdown list of regions
-      Then value "Владивосток" is entered in the region field
-      And show ads button is pressed
-      Then page search results is open
-      And checkbox onlyWithPhoto is activated
-      And value ExpensiveAtFirst is chosen from Sort dropdown list
-      And value of name and price is printed in console for the first three products
+#language:ru
+
+Функциональность:  поиск самых дооргих принтеров во Владивостоке
+
+  Сценарий:
+
+    Дано открыта страница Avito
+    И в выпадающем списке категорий выбрана <оргтехника>
+    И в поле поиска введено "Принтер"
+    Тогда кликнуть по выпадающему списку региона
+    Тогда значение "Владивосток" введено в поле поиска региона
+    Тогда нажата кнопка показать найденные объявления
+    Тогда страница с результатами поиска открыта
+    И чекбок только с фото установлен
+    Тогда значение ДОРОЖЕ выбрано из выпадающего сортировочного списка
+    И значение названия и цены товара выведено в консоль для первых трёх объявлений
+
+
+
+
 
