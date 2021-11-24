@@ -4,19 +4,23 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.ru.Если;
 import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
+import io.cucumber.java.ru.Тогда;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.lanit.at.web.pagecontext.PageManager;
 import ru.lanit.at.utils.Sleep;
 
 import static com.codeborne.selenide.Selenide.*;
+import static steps.DropDownEnum.ДОРОЖЕ;
 
 
 public class WebActionSteps {
@@ -31,7 +35,7 @@ public class WebActionSteps {
     private final SelenideElement searchField = $x("//*[@class=\"input-input-Zpzc1\"]");
     private final SelenideElement placeForEnteringRegion = $x("//input[@placeholder='Город, регион или Россия']");
     private final SelenideElement sortDropDown = $x("//div[@class='select-select-box-jJiQW select-size-s-VX5kS']");
-    private final SelenideElement expensiveAtFirst = $x ("//option[contains(text(),'Дороже')]");
+
 
     /**
      * нажимает на элемент по тексту
@@ -119,42 +123,40 @@ public class WebActionSteps {
                 .clear();
     }
 
-    @Given("main page is open")
+    @Given("открыта страница Avito")
     public void mainPageIsOpen() {
         Selenide.open("https://www.avito.ru/");
-        
+
     }
 
-
-
-    @And("value {string} entered in search field")
+    @And("в поле поиска введено {string}")
     public void valueEnteredInSearchField(String string) {
         searchField.click();
         searchField.setValue(string);
-
-
-
-
     }
 
-    @Then("value {string} is entered in the region field")
+    @Then("значение {string} введено в поле поиска региона")
     public void valueIsEnteredInTheRegionField(String string) {
-
         placeForEnteringRegion.click();
         placeForEnteringRegion.setValue(string);
         sleep(2000);
-
-        
     }
 
-    @Then("page search results is open")
+    @Then("страница с результатами поиска открыта")
     public void pageSearchResultsIsOpen() {
-        
     }
 
-    @And("value ExpensiveAtFirst is chosen from Sort dropdown list")
-    public void valueExpensiveAtFirstIsChosenFromSortDropdownList() {
+    @ParameterType("[A-Za-zA-Яа-я ]+")
+    public DropDownEnum option(String str) {
+        return DropDownEnum.valueOf(str);
+    }
+
+    @Тогда("значение {option} выбрано из выпадающего сортировочного списка")
+    public void значениеДОРОЖЕВыбраноИзВыпадающегоСортировочногоСписка(DropDownEnum option) {
         sortDropDown.click();
-        expensiveAtFirst.click();
+        String xpath = String.format("//option[contains(text(),'%s')]", option.getOption());
+        SelenideElement dinamicXpath = $x(xpath);
+        dinamicXpath.click();
+
     }
 }

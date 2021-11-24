@@ -104,9 +104,11 @@ public class WindowSteps {
         pageManager.setCurrentPage(page);
     }
 
-    @And("equipment is selected at dropdown list of category")
+    @And("в выпадающем списке категорий выбрана <оргтехника>")
     public void equipmentIsSelectedAtDropdownListOfCategory() {
         selectCategory.click();
         categoryOfficeEquipment.click();
     }
+
+
 }

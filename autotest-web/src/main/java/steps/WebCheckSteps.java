@@ -23,7 +23,7 @@ public class WebCheckSteps {
         this.pageManager = pageManager;
     }
 
-    private final SelenideElement dropDownRegions = $x("//div[@class='main-locationWrapper-R8itV']");
+    private final SelenideElement dropDownRegions = $x("//div[@class='main-text-g_qrO']");
     private final SelenideElement showAdsButton = $x("//button[@class='button-button-CmK9a button-size-m-LzYrF button-primary-x_x8w']");
     private final SelenideElement checkBoxOnlyWithFoto = $x("//span[contains(text(),'только с фото')]");
     private final ElementsCollection finalSearchResult = $$x("//div[@data-marker='item']");
@@ -139,41 +139,35 @@ public class WebCheckSteps {
         WebChecks.urlContains(url);
     }
 
-    @Then("click at dropdown list of regions")
+    @Then("кликнуть по выпадающему списку региона")
     public void clickAtDropdownListOfRegions() {
         dropDownRegions.click();
 
-
     }
 
-    @And("show ads button is pressed")
+    @And("нажата кнопка показать найденные объявления")
     public void showAdsButtonIsPressed() {
         showAdsButton.click();
 
-
     }
 
-    @And("checkbox onlyWithPhoto is activated")
+    @And("чекбок только с фото установлен")
     public void checkboxOnlyWithPhotoIsActivated() {
         checkBoxOnlyWithFoto.click();
 
     }
 
-    @And("value of name and price is printed in console for the first three products")
+    @And("значение названия и цены товара выведено в консоль для первых трёх объявлений")
     public void valueOfNameAndPriceIsPrintedInConsoleForTheFirstThreeProducts() {
         System.out.println("Выводим цены и названия товара в первых трёх объявлениях");
         System.out.println();  //для пробела
-        final String str = finalSearchResult.get(0).getText();
-        final String sentences[] = str.split("[₽]\\s*");
-        System.out.println(sentences[0]);
-        System.out.println();
-        final String str1 = finalSearchResult.get(1).getText();
-        final String sentences1[] = str1.split("[₽]\\s*");
-        System.out.println(sentences1[0]);
-        System.out.println();
-        final String str2 = finalSearchResult.get(2).getText();
-        final String sentences2[] = str2.split("[₽]\\s*");
-        System.out.println(sentences2[0]);
-        System.out.println(); //для пробела
+        int count = 3;
+        for (int i = 0; i < count; i++) {
+            final String str = finalSearchResult.get(i).getText();
+            final String sentences[] = str.split("\\n");
+            System.out.println(sentences[0]);
+            System.out.println(sentences[1]);
+            System.out.println(); //для пробела
+        }
     }
 }
